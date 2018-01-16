@@ -81,9 +81,66 @@ for idx,ax in enumerate(axes):
 plt.tight_layout()
 plt.show()
     
+""" Observations 
+1. Mean values of cell radius, perimeter, area, compactness, concavity and 
+concave points can be used in classification of the cancer.
+2. mean values of texture, smoothness, symmetry or fractual dimension does
+ not show a particular preference of one diagnosis over the other. In any
+ of the histograms there are no noticeable large outliers that warrants 
+ further cleanup.
+
+"""
 
 
+# Creating a test and training dataset.
 
+traindf, testdf = train_test_split(df, test_size = 0.3)
+
+# We are going to train different models to perform different model and
+# evaluate it's performance.
+
+def classification_model(model, data, predictors, outcome):
+    
+    # Fitting the Model
+    model.fit(data[predictors], data[outcome])
+    
+    # Predicting the data
+    predictions  = model.predict(data[predictors])
+    
+    # Printing The Accuracy 
+    accuracy = metrics.accuracy_score(predictions, data[outcome])
+    print('Accuracy: %s' %accuracy)
+    
+    # Using KFold for cross validation.
+    kf = KFold(data.shape[0], n_folds = 5)
+    error = []
+    
+    for train, test in kf:
+        #Fitting the training data
+        model.fit(data[predictors].iloc[train, :], data[outcome].iloc[train])
+        
+        # Predicting values using model
+        predictions = model.predict(data[predictors].iloc[test, :])
+        
+        # Store the Cross Validation score to the error.
+        error.append(model.score(data[predictors].iloc[test,:], data[outcome].iloc[test]))
+        
+        print('Cross Validation of this model is %s' %np.mean(error))
+    
+# Logistic Regression
+""" 
+Logistic regression is widely used for classification of discrete data.
+In this case we will use it for binary (1,0) classification.
+
+Based on the observations in the histogram plots, we can see that diagnosis is
+dependent on mean cell radius, mean perimeter, mean area, mean compactness, 
+mean concavity and mean concave points. 
+"""
+
+predictor_var = ['radius_mean','perimeter_mean','area_mean','compactness_mean','concave points_mean']
+outcome_var = 'diagnosis'
+model = LogisticRegression()
+classification_model(model, traindf, predictor_var, outcome_var)
 
 
 
