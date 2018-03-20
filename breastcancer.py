@@ -140,12 +140,18 @@ mean concavity and mean concave points.
 predictor_var = ['radius_mean','perimeter_mean','area_mean','compactness_mean','concave points_mean']
 outcome_var = 'diagnosis'
 model = LogisticRegression()
+print("For Linear Regression")
 classification_model(model, traindf, predictor_var, outcome_var)
+print("")
+print("")
 
 # For only one Predictor
 predictor_var = ['radius_mean']
 model = LogisticRegression()
+print("For Linear Regression With One Variable")
 classification_model(model, traindf, predictor_var, outcome_var)
+print("")
+print("")
 
 """ 
 This gives a similar prediction accuracy and a cross-validation score.
@@ -155,8 +161,48 @@ scores are reasonable.
 
 # Decision Trees
 """
+Let’s consider a very basic example that uses data set for 
+predicting whether a person has cancer or not. Below model uses 3 
+features/attributes/columns from the data set, namely 'radius_mean',
+'perimeter_mean','area_mean','compactness_mean' and 'concave points_mean'
+"""
+
+predictor_var = ['radius_mean','perimeter_mean','area_mean','compactness_mean','concave points_mean']
+model = DecisionTreeClassifier()
+print("For Decision Trees")
+classification_model(model, traindf, predictor_var, outcome_var)
+print("")
+print("")
 
 """
+Here we are over-fitting the model probably due to the large number of 
+predictors. Let use a single predictor, the obvious one is the radius of 
+the cell.
+"""
+
+# For only single Predictor
+
+predictor_var = ['radius_mean']
+model = DecisionTreeClassifier()
+print("For Decision Trees With One Variable")
+classification_model(model, traindf, predictor_var, outcome_var)
+print("")
+print("")
+
+"""
+The accuracy of the prediction is much much better now. 
+
+Using a single predictor gives a 97% prediction accuracy for this model but 
+the cross-validation score is not that great.
+"""
+
+# Random Forest
+
+predictor_var = features_mean
+
+
+
+
 
 
 
