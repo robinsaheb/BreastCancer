@@ -142,7 +142,21 @@ outcome_var = 'diagnosis'
 model = LogisticRegression()
 classification_model(model, traindf, predictor_var, outcome_var)
 
+# For only one Predictor
+predictor_var = ['radius_mean']
+model = LogisticRegression()
+classification_model(model, traindf, predictor_var, outcome_var)
 
+""" 
+This gives a similar prediction accuracy and a cross-validation score.
+The accuracy of the predictions are good but not great. The cross-validation 
+scores are reasonable. 
+"""
+
+# Decision Trees
+"""
+
+"""
 
 
 
