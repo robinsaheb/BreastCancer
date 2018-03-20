@@ -199,10 +199,56 @@ the cross-validation score is not that great.
 # Random Forest
 
 predictor_var = features_mean
+model = RandomForestClassifier(n_estimators = 100,min_samples_split = 25, 
+                               max_depth = 7, max_features = 2)
+classification_model(model, traindf,predictor_var, outcome_var)
+
+"""
+Using all the features improves the prediction accuracy and the cross-validation 
+score is great.
+
+An advantage with Random Forest is that it returns a feature importance 
+matrix which can be used to select features. 
+"""
+
+# Selecting Top features 
+
+featimp = pd.Series(model.feature_importances_, index=predictor_var).sort_values(ascending=False)
+print(featimp)
+
+# Using Top 5 Features
+
+predictor_var = ['concave points_mean','area_mean','radius_mean','perimeter_mean','concavity_mean',]
+model = RandomForestClassifier(n_estimators = 100, min_samples_split = 25, 
+                               max_depth = 7, max_features = 2)
+classification_model(model, traindf, predictor_var, outcome_var)
+
+"""
+Using the top 5 features only changes the prediction accuracy a bit but
+we get a better result if we use all the predictors.
+"""
 
 
+# Using on the test data set
+predictor_var = features_mean
+model = RandomForestClassifier(n_estimators = 500,min_samples_split = 25,
+                               max_depth = 7, max_features = 2)
+classification_model(model, testdf, predictor_var, outcome_var)
+
+"""
+he prediction accuracy for the test data set using the above 
+Random Forest model is 95%.
+"""
 
 
+"""
+Conclustion
+The best model to be used for diagnosing breast cancer as found in this 
+analysis is the Random Forest model with the top 5 predictors, 
+'concave points_mean','area_mean','radius_mean','perimeter_mean',
+'concavity_mean'. It gives a prediction accuracy of ~95% and a 
+cross-validation score ~ 93% for the test data set.
+"""
 
 
 
