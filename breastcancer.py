@@ -1,7 +1,7 @@
-#!/usr/bin/env python3
+
+ #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec 20 19:30:58 2017
 
 @author: sahebsingh
 """
@@ -23,7 +23,7 @@ import seaborn as sns
 """ Load the Data """
 
 df = pd.read_csv('/Users/sahebsingh/Desktop/Projects/Data Mining/Dataset/data.csv', header = 0)
-print(df.head())
+#print(df.head())
 
 
 """ Clean and Prepare the Data """
@@ -60,6 +60,7 @@ print(df.describe())
 
 plt.hist(df['diagnosis'])
 plt.title('Diagnosis')
+plt.savefig('2.png')
 plt.show() # This shows that B is more than M.
 
 # Diagnosis with respect to other variables
@@ -79,6 +80,7 @@ for idx,ax in enumerate(axes):
     ax.legend(loc='upper right')
     ax.set_title(features_mean[idx])
 plt.tight_layout()
+plt.savefig('1.png')
 plt.show()
     
 """ Observations 
@@ -175,9 +177,7 @@ print("")
 print("")
 
 """
-Here we are over-fitting the model probably due to the large number of 
-predictors. Let use a single predictor, the obvious one is the radius of 
-the cell.
+Here we are  
 """
 
 # For only single Predictor
@@ -201,7 +201,10 @@ the cross-validation score is not that great.
 predictor_var = features_mean
 model = RandomForestClassifier(n_estimators = 100,min_samples_split = 25, 
                                max_depth = 7, max_features = 2)
+print("For Random Forest")
 classification_model(model, traindf,predictor_var, outcome_var)
+print("")
+print("")
 
 """
 Using all the features improves the prediction accuracy and the cross-validation 
@@ -230,19 +233,20 @@ we get a better result if we use all the predictors.
 
 
 # Using on the test data set
-predictor_var = features_mean
+
+#predictor_var = features_mean
 model = RandomForestClassifier(n_estimators = 500,min_samples_split = 25,
                                max_depth = 7, max_features = 2)
 classification_model(model, testdf, predictor_var, outcome_var)
 
 """
-he prediction accuracy for the test data set using the above 
+The prediction accuracy for the test data set using the above 
 Random Forest model is 95%.
 """
 
 
 """
-Conclustion
+Conclusion
 The best model to be used for diagnosing breast cancer as found in this 
 analysis is the Random Forest model with the top 5 predictors, 
 'concave points_mean','area_mean','radius_mean','perimeter_mean',
@@ -251,6 +255,36 @@ cross-validation score ~ 93% for the test data set.
 """
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from sklearn import svm
+clf = svm.SVC()
+classification_model(clf, traindf, predictor_var, outcome_var)
 
 
 
