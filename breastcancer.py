@@ -19,6 +19,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
 from sklearn import metrics
 import seaborn as sns
+from sklearn.metrics import classification_report
 
 """ Load the Data """
 
@@ -113,6 +114,10 @@ def classification_model(model, data, predictors, outcome):
     accuracy = metrics.accuracy_score(predictions, data[outcome])
     print('Accuracy: %s' %accuracy)
     
+    #Precision Recall F1_score Support     
+    print(classification_report(predictions, data[outcome],
+    target_names=['M', 'B']))
+    
     # Using KFold for cross validation.
     kf = KFold(data.shape[0], n_folds = 5)
     error = []
@@ -142,7 +147,7 @@ mean concavity and mean concave points.
 predictor_var = ['radius_mean','perimeter_mean','area_mean','compactness_mean','concave points_mean']
 outcome_var = 'diagnosis'
 model = LogisticRegression()
-print("For Linear Regression")
+print("For Logistic Regression")
 classification_model(model, traindf, predictor_var, outcome_var)
 print("")
 print("")
@@ -150,7 +155,7 @@ print("")
 # For only one Predictor
 predictor_var = ['radius_mean']
 model = LogisticRegression()
-print("For Linear Regression With One Variable")
+print("For Logistic Regression With One Variable")
 classification_model(model, traindf, predictor_var, outcome_var)
 print("")
 print("")
@@ -176,9 +181,7 @@ classification_model(model, traindf, predictor_var, outcome_var)
 print("")
 print("")
 
-"""
-Here we are  
-"""
+
 
 # For only single Predictor
 
@@ -224,7 +227,10 @@ print(featimp)
 predictor_var = ['concave points_mean','area_mean','radius_mean','perimeter_mean','concavity_mean',]
 model = RandomForestClassifier(n_estimators = 100, min_samples_split = 25, 
                                max_depth = 7, max_features = 2)
+print("Random Forest on top 5 features")
 classification_model(model, traindf, predictor_var, outcome_var)
+print(" ")
+print(" ")
 
 """
 Using the top 5 features only changes the prediction accuracy a bit but
@@ -237,6 +243,7 @@ we get a better result if we use all the predictors.
 #predictor_var = features_mean
 model = RandomForestClassifier(n_estimators = 500,min_samples_split = 25,
                                max_depth = 7, max_features = 2)
+print("Random Forest on Test Data Set ")
 classification_model(model, testdf, predictor_var, outcome_var)
 
 """
@@ -281,9 +288,12 @@ cross-validation score ~ 93% for the test data set.
 
 
 
-
+print(" ")
+print(" ")
 from sklearn import svm
 clf = svm.SVC()
+print("For SVM")
+predictor_var = ['concave points_mean','area_mean','radius_mean','perimeter_mean','concavity_mean',]
 classification_model(clf, traindf, predictor_var, outcome_var)
 
 
